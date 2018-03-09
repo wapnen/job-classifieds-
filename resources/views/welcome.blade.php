@@ -161,7 +161,7 @@
     </div>
 </div>
 </div>
-@foreach(App\Classified::where('status', 'Active')->orderByRaw('RAND()')->take(3)->get() as $ad)
+@foreach(App\Classified::where('status', 'Active')->orderByRaw('RANDOM()')->take(3)->get() as $ad)
 <div class="col-sm-12 col-lg-4">
                 <!-- product card -->
 <div class="product-item bg-light">
