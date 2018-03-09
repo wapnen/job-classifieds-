@@ -43,7 +43,7 @@
 						<ul class="navbar-nav ml-auto mt-10">
 							@guest
 							<li class="nav-item">
-								<a class="nav-link login-button" href="index.html">Login</a>
+								<a class="nav-link login-button" href="{{route('login')}}">Login</a>
 							</li>
 							@else
 							<li class="nav-item dropdown dropdown-slide">
