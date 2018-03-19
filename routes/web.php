@@ -28,6 +28,14 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/password/update', 'UserController@update_password');
 	//classifieds controller 
 	Route::resource('/classified', 'ClassifiedsController');
+	//show a single ad 
+	Route::get('/job/ad/{id}', function($id){
+		$ad = App\Classified::find($id);
+		return view('classified.single', compact('ad'));
+	});
+	
+	//bid controller 
+	Route::resource('/bid', 'BidController');
 	Route::get('/home', 'HomeController@index')->name('home');
 
 });

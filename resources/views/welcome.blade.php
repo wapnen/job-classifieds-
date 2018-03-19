@@ -128,7 +128,7 @@
         <div class="row">
             <!-- offer 01 -->
          
-@foreach(App\Classified::where('status', 'Active')->orderByRaw('RANDOM()')->take(3)->get() as $ad)
+@foreach(App\Classified::where('status', 'Active')->orderByRaw('RAND()')->take(3)->get() as $ad)
 <div class="col-sm-12 col-lg-4">
                 <!-- product card -->
 <div class="product-item bg-light">
@@ -140,7 +140,7 @@
             </a> -->
         </div>
         <div class="card-body">
-            <h4 class="card-title"><a href="">{{$ad->title}}</a></h4>
+            <h4 class="card-title"><a href="{{url('/job/ad', $ad->id)}}">{{$ad->title}}</a></h4>
             <ul class="list-inline product-meta">
                 <li class="list-inline-item">
                     <a href=""><i class="fa fa-folder-open-o"></i>{{$ad->category}}</a>
@@ -152,7 +152,8 @@
             <p class="card-text">{{$ad->description}}</p>
             <div class="product-ratings">
                 GHc {{number_format($ad->budget, 2)}}
-            </div>
+            </div
+
         </div>
     </div>
 </div>
