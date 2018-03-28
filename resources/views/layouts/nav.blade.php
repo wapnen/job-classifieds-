@@ -6,47 +6,58 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item active">
+							<li class="nav-item @if($selected == 'welcome') active @endif">
 								<a class="nav-link" href="{{url('/')}}">Home</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Dashboard</a>
+							<li class="nav-item @if($selected == 'home') active @endif">
+								<a class="nav-link" href="{{url('/home')}}">Dashboard</a>
 							</li>
-							<li class="nav-item dropdown dropdown-slide">
+							<li class="nav-item dropdown dropdown-slide @if($selected == 'ads') active @endif">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Pages <span><i class="fa fa-angle-down"></i></span>
+									Ads<span><i class="fa fa-angle-down"></i></span>
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="#">Category</a>
-									<a class="dropdown-item" href="#">Single Page</a>
-									<a class="dropdown-item" href="#">Store Single</a>
-									<a class="dropdown-item" href="#">Dashboard</a>
-									<a class="dropdown-item" href="#">User Profile</a>
-									<a class="dropdown-item" href="#">Submit Coupon</a>
-									<a class="dropdown-item" href="#">Blog</a>
-									<a class="dropdown-item" href="#">Single Post</a>
+									<a class="dropdown-item" href="#">My ads</a>
+									<a class="dropdown-item" href="#">My bids</a>
 								</div>
 							</li>
-							<li class="nav-item dropdown dropdown-slide">
+							@if(Auth::user())
+							<li class="nav-item dropdown dropdown-slide @if($selected == 'message') active @endif">
 								<a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Listing <span><i class="fa fa-angle-down"></i></span>
+								Messages <span class="badge badge-info text-right">{{count(App\Message::where('recipient_id', Auth::user()->id )->get())}}</span>	<span><i class="fa fa-angle-down"></i></span>
 								</a>
 								<!-- Dropdown list -->
+								<?php 
+										$recipients = App\Message::where('sender_id', Auth::user()->id)->orWhere('recipient_id', Auth::user()->id)->get(); 
+										$recipient_arr = [];
+										foreach ($recipients as $value) {
+											if (!in_array($value->recipient_id, $recipient_arr) ) {
+												$recipient_arr[] = $value->recipient_id;
+											}
+										}
+
+										$recipients = App\User::find($recipient_arr);
+								?>
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="#">Action</a>
-									<a class="dropdown-item" href="#">Another action</a>
-									<a class="dropdown-item" href="#">Something else here</a>
+									@foreach($recipients as $recipient)
+									 @if($recipient->id != Auth::user()->id) 
+									<a class="dropdown-item" href="message/{{ $recipient->id}}"><span class="product-thumb"><img width="40px" height="auto" src="/images/user/user.png" alt="image description"></span> {{$recipient->name}} <span class="badge badge-info text-right">Unread {{count(App\Message::where(['recipient_id' => Auth::user()->id , 'sender_id' => $recipient->id])->get())}}</span>	</a>
+									 @endif
+									@endforeach
+									
+									
 								</div>
 							</li>
+							@endif
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 							@guest
 							<li class="nav-item">
-								<a class="nav-link login-button" href="{{route('login')}}">Login</a>
+								<a class="nav-link login-button @if($selected == 'auth') active @endif" href="{{route('login')}}">Login</a>
 							</li>
 							@else
-							<li class="nav-item dropdown dropdown-slide">
+							<li class="nav-item dropdown dropdown-slide @if($selected == 'profile') active @endif">
 								<a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span><i class="fa fa-user"></i> </span> {{Auth::user()->name}} 
 								</a>

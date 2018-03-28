@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg  navigation">
-                    @include('layouts.nav')
+                    @include('layouts.nav', ['selected' => 'auth'])
                 </nav>
             </div>
         </div>

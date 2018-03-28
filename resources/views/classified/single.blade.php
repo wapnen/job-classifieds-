@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg  navigation">
-                    @include('layouts.nav')
+                    @include('layouts.nav' , ['selected' => 'ads'])
                 </nav>
             </div>
         </div>
@@ -28,23 +28,7 @@
             <div class="col-md-12">
                 <!-- Advance Search -->
                 <div class="advance-search">
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <input type="text" class="form-control" id="inputtext4" placeholder="What are you looking for">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <input type="text" class="form-control" id="inputCategory4" placeholder="Category">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <input type="text" class="form-control" id="inputLocation4" placeholder="Location">
-                            </div>
-                            <div class="form-group col-md-2">
-                                
-                                <button type="submit" class="btn btn-primary">Search Now</button>
-                            </div>
-                        </div>
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -65,7 +49,7 @@
                         <ul class="list-inline">
                             <li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="">{{App\User::find($ad->user_id)->name}}</a></li>
                             <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a href="">{{$ad->category}}</a></li>
-                            <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="">{{$ad->district}} , {{$ad->region}}</a></li>
+                            <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="">{{$ad->address}}, {{$ad->district}} , {{$ad->region}}</a></li>
                         </ul>
                     </div>
                     
@@ -108,9 +92,16 @@
                                                     {{$bid->details}}
                                                 </p>
                                             </div>
+                                            @if(Auth::user()->id == $bid->user_id && $ad->status == "Active")
+                                            <div class="button-container text-right">
+                                                <a href="" class=""><i class="fa fa-pencil " style="color: green;"></i></a>
+                                                <a href="" class=""><i class="fa fa-trash " style="color: red;"></i></a>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                     @endforeach
+                                    @if(Auth::user()->id != $ad->user_id && count(App\Bid::where('user_id', Auth::user()->id)->get()) == 0 )
                                     <div class="review-submission">
                                         <h3 class="tab-title">Submit your bid</h3>
                                         <!-- Rate -->
@@ -133,6 +124,7 @@
                                             </form>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

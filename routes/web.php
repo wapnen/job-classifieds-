@@ -33,9 +33,22 @@ Route::group(['middleware' => 'auth'], function(){
 		$ad = App\Classified::find($id);
 		return view('classified.single', compact('ad'));
 	});
+
 	
+
 	//bid controller 
+	Route::get('bid/status/{bid}/{status}', 'BidController@status');
 	Route::resource('/bid', 'BidController');
+
+	//messages
+	Route::get('message/{id}', function($id){
+		$user = App\User::find($id);
+		$count = count(App\Message::where(['sender_id' => Auth::user()->id, 'recipient_id' => $user->id])->orWhere(['sender_id' => $user->id, 'recipient_id' =>Auth::user()->id])->get());
+		$count -= 6;
+		$messages = App\Message::where(['sender_id' => Auth::user()->id, 'recipient_id' => $user->id])->orWhere(['sender_id' => $user->id, 'recipient_id' =>Auth::user()->id])->skip($count)->take(6)->get();
+		return view('layouts.message', compact('user', 'messages'));
+	});
+	Route::resource('/message', 'MessageController');
 	Route::get('/home', 'HomeController@index')->name('home');
 
 });

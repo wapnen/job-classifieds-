@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg  navigation">
-                    @include('layouts.nav')
+                    @include('layouts.nav', ['selected' => 'ads'])
                 </nav>
             </div>
         </div>
@@ -102,7 +102,7 @@
                             <tr>
                                 <th>User</th>
                                 <th>Details</th>
-                                <th>Bid</th>
+                                
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -112,35 +112,32 @@
                             <tr>
                                 
                                 <td class="product-thumb">
-                                    <img width="80px" height="auto" src="/images/products/products-1.jpg" alt="image description"></td>
+                                    <img width="80px" height="auto" src="/images/user/user.png" alt="image description"></td>
                                 <td class="product-details">
-                                    <h3 class="title">{{$ad->title}}</h3>
-                                   <span><strong>Due date: </strong><time>{{date('F d, Y', strtotime($ad->date))}}</time> </span>
-                                    <span class="status active"><strong>Status</strong>{{$ad->status}}</span>
-                                    <span class="location"><strong>Location</strong>{{$ad->district}}, {{$ad->region}}</span>
+                                   <span><strong>User: </strong><time>{{App\User::find($bid->user_id)->name}}</time> </span>
+                                    <span class="status "><strong>Status:</strong>{{$bid->status}}</span>
+                                    <span class="status"><strong>Bid:</strong>GHc{{number_format($bid->bid_amount,2)}}</span>
+                                    <span class="location"><strong>Details:</strong>{{$bid->details}}    </span>
                                 </td>
-                                <td>{{$ad->category}}</td>
                                 <td class="action" data-title="Action">
                                     <div class="">
                                         <ul class="list-inline justify-content-center">
                                             <li class="list-inline-item">
-                                                <a data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="view" href="{{route('classified.show', $ad->id)}}">
-                                                    <i class="fa fa-eye"></i>
+                                                <a " class="view" href="/bid/status/{{$bid->id}}/Accepted">
+                                                    <i class="fa fa-check"></i>
                                                 </a>        
                                             </li>
                                             <li class="list-inline-item">
-                                                <a class="edit" href="{{route('classified.edit', $ad->id)}}">
-                                                    <i class="fa fa-pencil"></i>
+                                                <a class="edit" href="/message/{{$bid->user_id}}">
+                                                    <i class="fa fa-envelope"></i>
                                                 </a>        
                                             </li>
                                             <li class="list-inline-item">
-                                                <form method="post" action="{{route('classified.destroy', $ad->id)}}">
-                                                    @csrf
-                                                    {{method_field('delete')}}
-                                                    <a class="delete" href="">
-                                                    <i class="fa fa-trash"></i>
+                                                
+                                                    <a class="delete" href="/bid/status/{{$bid->id}}/Rejected">
+                                                    <i class="fa fa-times"></i>
                                                 </a>
-                                                </form>
+                                                
                                                 
                                             </li>
                                         </ul>
@@ -163,7 +160,6 @@
 =            Footer            =
 =============================-->
 @include('layouts.footer')
-
 
 </body>
 

@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg  navigation">
-                    @include('layouts.nav')
+                    @include('layouts.nav' , ['selected' => 'home'])
                 </nav>
             </div>
         </div>
@@ -35,6 +35,10 @@
                 <!-- Recently Favorited -->
                 <div class="widget dashboard-container my-adslist">
                     <h3 class="widget-header">My Ads</h3>
+                    @if(count($ads) < 1)
+                    
+                    <p class="text-center">You have not posted any job ads yet!</p>
+                    @else
                     <table class="table table-responsive product-dashboard-table">
                         <thead>
                             <tr>
@@ -89,7 +93,7 @@
                           
                         </tbody>
                     </table>
-                    
+                    @endif
                 </div>
             </div>
         </div>
