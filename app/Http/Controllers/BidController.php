@@ -114,6 +114,14 @@ class BidController extends Controller
         //send email to artisan 
         if($status == 'Accepted'){
             $recipient = User::find($bid->user_id);
+
+            //update ad status
+            $ad = Classified::find($bid->ad_id);
+            $ad->status = "Assigned";
+            $ad->budget = $bid->bid_amount;
+            $ad->assigned_to = $recipient->id;
+            $ad->save();
+            
             //compose message
             $message = new Message;
             $message->sender_id = Auth::user()->id;

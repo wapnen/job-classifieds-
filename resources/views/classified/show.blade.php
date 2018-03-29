@@ -41,7 +41,9 @@
                                 <th>Image</th>
                                 <th>Details</th>
                                 <th>Category</th>
+                                @if($ad->assigned_to ==null)
                                 <th class="text-center">Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -58,6 +60,7 @@
                                     <span class="location"><strong>Location</strong>{{$ad->district}}, {{$ad->region}}</span>
                                 </td>
                                 <td>{{$ad->category}}</td>
+                                @if($ad->assigned_to ==null)
                                 <td class="action" data-title="Action">
                                     <div class="">
                                         <ul class="list-inline justify-content-center">
@@ -84,6 +87,7 @@
                                         </ul>
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                           
                           
@@ -92,33 +96,38 @@
                     
                 </div>
                 <!-- bids -->
-                <div class="widget dashboard-container my-adslist">
+                <div class="widget ">
                     <h3 class="widget-header">Job bids</h3>
                       @if(count($bids) < 1)
                                 <p>There are currently no bids for this job</p>
                             @else
-                    <table class="table table-responsive product-dashboard-table">
+                    <div class="row">
+                        <div class="col-md-12 ">
+                        <table class="table table-responsive product-dashboard-table">
                         <thead>
                             <tr>
                                 <th>User</th>
                                 <th>Details</th>
-                                
+                                @if($ad->assigned_to == null)
                                 <th class="text-center">Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
-                          
                             @foreach($bids as $bid)
                             <tr>
+                          
                                 
                                 <td class="product-thumb">
                                     <img width="80px" height="auto" src="/images/user/user.png" alt="image description"></td>
                                 <td class="product-details">
-                                   <span><strong>User: </strong><time>{{App\User::find($bid->user_id)->name}}</time> </span>
-                                    <span class="status "><strong>Status:</strong>{{$bid->status}}</span>
-                                    <span class="status"><strong>Bid:</strong>GHc{{number_format($bid->bid_amount,2)}}</span>
+                                   <span><strong>User: </strong><time>{{App\User::find($bid->user_id)->name}}</time> </span><br>
+                                    <span class="status "><strong>Status:</strong>{{$bid->status}}</span><br>
+                                    <span class="status"><strong>Bid:</strong>GHc{{number_format($bid->bid_amount,2)}}</span><br>
                                     <span class="location"><strong>Details:</strong>{{$bid->details}}    </span>
                                 </td>
+                                @if($ad->assigned_to ==null)
+                                
                                 <td class="action" data-title="Action">
                                     <div class="">
                                         <ul class="list-inline justify-content-center">
@@ -143,12 +152,15 @@
                                         </ul>
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                           @endforeach
 
                         </tbody>
                     </table>
-                    @endif
+                    </div>
+
+                    </div>                    @endif
                 </div>
             </div>
         </div>

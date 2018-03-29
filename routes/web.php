@@ -27,6 +27,10 @@ Route::group(['middleware' => 'auth'], function(){
 	//update password
 	Route::post('/password/update', 'UserController@update_password');
 	//classifieds controller 
+	Route::get('/jobs/assigned', function(){
+		$ads = App\Classified::where('status', 'Assigned')->orWhere('status', 'Completed')->get();
+		return view('classified.assigned', compact('ads'));
+	});
 	Route::resource('/classified', 'ClassifiedsController');
 	//show a single ad 
 	Route::get('/job/ad/{id}', function($id){

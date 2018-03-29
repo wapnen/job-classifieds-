@@ -18,8 +18,8 @@
 <div class="widget user-dashboard-menu">
     <ul>
         <li @if($selected == 'ads') class="active"  @endif><a href="/home"><i class="fa fa-user"></i> My Ads</a></li>
-        <li @if($selected == 'bids') class="active"  @endif><a href="{{route('bid.index')}}"><i class="fa fa-bookmark-o"></i> My bids <span>5</span></a></li>
-        <li><a href=""><i class="fa fa-file-archive-o"></i>Archived Ads <span>12</span></a></li>
+        <li @if($selected == 'bids') class="active"  @endif><a href="{{route('bid.index')}}"><i class="fa fa-bookmark-o"></i> My bids </a></li>
+        <li @if($selected == 'assigned') class="active"  @endif><a href="/jobs/assigned"><i class="fa fa-file-archive-o"></i>Assigned jobs</a></li>
         <li><a href=""><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a></li>
         <li><a href=""><i class="fa fa-cog"></i> Logout</a></li>
         <li><a href=""><i class="fa fa-power-off"></i>Delete Account</a></li>
