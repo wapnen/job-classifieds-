@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/profile', 'UserController@update_profile' );
 	//update password
 	Route::post('/password/update', 'UserController@update_password');
+	//user ratings and reviews 
+	Route::post('/post/review', 'UserController@post_review');
 	//classifieds controller 
 	Route::get('/jobs/assigned', function(){
 		$ads = App\Classified::where('status', 'Assigned')->orWhere('status', 'Completed')->get();

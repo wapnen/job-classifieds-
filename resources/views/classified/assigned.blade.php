@@ -84,10 +84,15 @@
                                 </td>
                                 @else
                                 <td data-title="Action">
-                                  <a href="{{route('classified.show', $ad->id)}}" class="btn btn-success"  >
-                                 View ad
-                                  </a> 
-                                                           
+                                    @if(App\Review::where('ad_id', $ad->id)->first() !=null)
+                                        <a href="{{route('classified.show', $ad->id)}}"  class="btn btn-success"  >
+                                    View ad 
+                                  </a>   
+                                    @else
+                                  <a href="#" data-toggle = "modal" data-ad= "{{$ad->id}}" data-target= "#rate_artisan" id="rate_artisan_modal" class="btn btn-success"  >
+                                    Rate artisan
+                                  </a>
+                                    @endif                     
                                 </td>
                                 @endif
                             </tr>
@@ -108,8 +113,15 @@
 =            Footer            =
 =============================-->
 @include('layouts.footer')
+@include('user.rate_artisan', ['ad' => $ad, 'artisan' => $ad->assigned_to])
+<script type="text/javascript">
+    $('#rate_artisan_modal').click(function(){
 
+       var ad_id = $(this).attr('data-ad');
+       $("#ad_id").val(ad_id);
 
+    });
+</script>
 </body>
 
 </html>

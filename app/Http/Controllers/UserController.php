@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 use Hash;
+use App\Classified;
+use App\Review;
 class UserController extends Controller
 {
     //
@@ -36,6 +38,16 @@ class UserController extends Controller
 		$user = Auth::user();
 		$user->password = bcrypt($request->get('password'));
 		$user->save();
+	}
+
+	//post user review
+	public function post_review(Request $request){
+		
+		$ad = Classified::find($request->ad_id);
+		$review = new Review($request->all());
+		$review->user_id = $ad->assigned_to;
+		$review->save();
+		return back()->with('status', 'Your job review has been posted!');
 	}
 
 }
