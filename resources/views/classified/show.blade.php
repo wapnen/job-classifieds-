@@ -29,71 +29,29 @@
         <div class="row">
             <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                @include('layouts.sidebar', ['user' => Auth::user(), 'selected' => 'ads'])
-                
+
             </div>
             <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
                 <!-- Recently Favorited -->
-                <div class="widget dashboard-container my-adslist">
-                    <h3 class="widget-header">{{$ad->title}}</h3>
-                    <table class="table table-responsive product-dashboard-table">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Details</th>
-                                <th>Category</th>
-                                @if($ad->assigned_to ==null)
-                                <th class="text-center">Action</th>
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <tr>
-                                
-                                <td class="product-thumb">
-                                    <img width="80px" height="auto" src="/images/products/products-1.jpg" alt="image description"></td>
-                                <td class="product-details">
-                                    <h3 class="title">{{$ad->title}}</h3>
-                                   <span><strong>Due date: </strong><time>{{date('F d, Y', strtotime($ad->date))}}</time> </span>
-                                    <span class="status active"><strong>Status</strong>{{$ad->status}}</span>
-                                     <span class="status"><strong>Budget</strong>GHc {{number_format($ad->budget, 2)}}</span>
-                                    <span class="location"><strong>Location</strong>{{$ad->district}}, {{$ad->region}}</span>
-                                </td>
-                                <td>{{$ad->category}}</td>
-                                @if($ad->assigned_to ==null)
-                                <td class="action" data-title="Action">
-                                    <div class="">
-                                        <ul class="list-inline justify-content-center">
-                                            <li class="list-inline-item">
-                                                <a data-toggle="tooltip" data-placement="top" title="View job ad" class="view" href="{{route('classified.show', $ad->id)}}">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>        
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a data-toggle="tooltip" data-placement="top" title="Edit ad" class="edit" href="{{route('classified.edit', $ad->id)}}">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>        
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <form method="post" action="{{route('classified.destroy', $ad->id)}}">
-                                                    @csrf
-                                                    {{method_field('delete')}}
-                                                    <a class="delete" data-toggle="tooltip" data-placement="top" title="Delete job ad" href="">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                                </form>
-                                                
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                                @endif
-                            </tr>
-                          
-                          
-                        </tbody>
-                    </table>
-                    
+                <div class="widget ">
+
+                    <h3 class="widget-header">Job ad details</h3>
+                    <div class="col-md-12">
+
+                      <table class="table table-responsive ">
+
+                          <tbody>
+                            <tr><th>Ad title</th><td>{{$ad->title}}</td></tr>
+                            <tr><th>Category</th><td> {{$ad->category}}</td></tr>
+                            <tr><th>Due Date</th><td>{{date('F d, Y', strtotime($ad->date))}}</td></tr>
+                            <tr><th>Status</th><td><span class="badge badge-success"> {{$ad->status}}</span></td></tr>
+                            <tr><th>Budget</th><td> {{number_format($ad->budget, 2)}}</td></tr>
+                            <tr><th>Location</th><td> {{$ad->district}} , {{$ad->region}}</td></tr>
+
+                          </tbody>
+                      </table>
+
+                    </div>
                 </div>
                 <!-- bids -->
                 <div class="widget ">
@@ -103,56 +61,43 @@
                             @else
                     <div class="row">
                         <div class="col-md-12 ">
-                        <table class="table table-responsive product-dashboard-table">
+                        <table class="table table-responsive ">
                         <thead>
                             <tr>
+                                <th>S/no</th>
                                 <th>User</th>
-                                <th>Details</th>
-                                @if($ad->assigned_to == null)
+                                <th>Status</th>
+                                <th>Bid amount</th>
+                                <th>Comments</th>
                                 <th class="text-center">Action</th>
-                                @endif
+
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($bids as $bid)
                             <tr>
-                          
-                                
-                                <td class="product-thumb">
-                                    <img width="80px" height="auto" src="/images/user/user.png" alt="image description"></td>
-                                <td class="product-details">
-                                   <span><strong>User: </strong><time>{{App\User::find($bid->user_id)->name}}</time> </span><br>
-                                    <span class="status "><strong>Status:</strong>{{$bid->status}}</span><br>
-                                    <span class="status"><strong>Bid:</strong>GHc{{number_format($bid->bid_amount,2)}}</span><br>
-                                    <span class="location"><strong>Details:</strong>{{$bid->details}}    </span>
-                                </td>
-                                @if($ad->assigned_to ==null)
-                                
-                                <td class="action" data-title="Action">
-                                    <div class="">
-                                        <ul class="list-inline justify-content-center">
-                                            <li class="list-inline-item">
-                                                <a " class="view" href="/bid/status/{{$bid->id}}/Accepted">
-                                                    <i class="fa fa-check"></i>
-                                                </a>        
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a class="edit" href="/message/{{$bid->user_id}}">
-                                                    <i class="fa fa-envelope"></i>
-                                                </a>        
-                                            </li>
-                                            <li class="list-inline-item">
-                                                
-                                                    <a class="delete" href="/bid/status/{{$bid->id}}/Rejected">
-                                                    <i class="fa fa-times"></i>
-                                                </a>
-                                                
-                                                
-                                            </li>
-                                        </ul>
+                              <?php $i = 1; ?>
+                                <td>{{$i}}</td>
+                                <td><a href="" class="text-info"> {{App\User::find($bid->user_id)->name}}</a></td>
+                                <td><span class="badge @if($bid->status == 'Accepted') badge-success @elseif($bid->status == 'Rejected') badge-danger @else badge-info @endif ">{{$bid->status}}</span> </td>
+                                <td>GHc{{number_format($bid->bid_amount,2)}}</td>
+                                <td >{{$bid->details}} </td>
+                                <td>
+                                  <div class="dropdown show">
+                                    <a class="btn btn-secondary btn-main-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Options
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                      @if($ad->status != 'Assigned')
+                                      <a class="dropdown-item" href="bid/status/{{$bid->id}}/Accepted">Accept Bid</a>
+                                      <a class="dropdown-item" href="bid/status/{{$bid->id}}/Rejected">Reject Bid</a>
+                                      @endif
+                                      <a class="dropdown-item" href="/message/{{$bid->user_id}}">Message user</a>
+
                                     </div>
+                                  </div>
                                 </td>
-                                @endif
                             </tr>
                           @endforeach
 

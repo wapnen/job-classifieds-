@@ -9,6 +9,8 @@
 							<li class="nav-item @if($selected == 'welcome') active @endif">
 								<a class="nav-link" href="{{url('/')}}">Home</a>
 							</li>
+
+							@if(Auth::user())
 							<li class="nav-item @if($selected == 'home') active @endif">
 								<a class="nav-link" href="{{url('/home')}}">Dashboard</a>
 							</li>
@@ -22,14 +24,13 @@
 									<a class="dropdown-item" href="#">My bids</a>
 								</div>
 							</li>
-							@if(Auth::user())
 							<li class="nav-item dropdown dropdown-slide @if($selected == 'message') active @endif">
 								<a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Messages <span class="badge badge-info text-right">{{count(App\Message::where('recipient_id', Auth::user()->id )->get())}}</span>	<span><i class="fa fa-angle-down"></i></span>
 								</a>
 								<!-- Dropdown list -->
-								<?php 
-										$recipients = App\Message::where('sender_id', Auth::user()->id)->orWhere('recipient_id', Auth::user()->id)->get(); 
+								<?php
+										$recipients = App\Message::where('sender_id', Auth::user()->id)->orWhere('recipient_id', Auth::user()->id)->get();
 										$recipient_arr = [];
 										foreach ($recipients as $value) {
 											if (!in_array($value->recipient_id, $recipient_arr) ) {
@@ -41,12 +42,12 @@
 								?>
 								<div class="dropdown-menu dropdown-menu-right">
 									@foreach($recipients as $recipient)
-									 @if($recipient->id != Auth::user()->id) 
+									 @if($recipient->id != Auth::user()->id)
 									<a class="dropdown-item" href="message/{{ $recipient->id}}"><span class="product-thumb"><img width="40px" height="auto" src="/images/user/user.png" alt="image description"></span> {{$recipient->name}} <span class="badge badge-info text-right">Unread {{count(App\Message::where(['recipient_id' => Auth::user()->id , 'sender_id' => $recipient->id])->get())}}</span>	</a>
 									 @endif
 									@endforeach
-									
-									
+
+
 								</div>
 							</li>
 							@endif
@@ -56,10 +57,13 @@
 							<li class="nav-item">
 								<a class="nav-link login-button @if($selected == 'auth') active @endif" href="{{route('login')}}">Login</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link login-button @if($selected == 'auth') active @endif" href="{{route('register')}}">Register</a>
+							</li>
 							@else
 							<li class="nav-item dropdown dropdown-slide @if($selected == 'profile') active @endif">
 								<a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span><i class="fa fa-user"></i> </span> {{Auth::user()->name}} 
+									<span><i class="fa fa-user"></i> </span> {{Auth::user()->name}}
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu dropdown-menu-right">

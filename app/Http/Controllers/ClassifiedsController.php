@@ -41,11 +41,11 @@ class ClassifiedsController extends Controller
        // dd($request->all());
         $request->validate([
             'title'=> 'required',
-            'description'=> 'required', 
+            'description'=> 'required',
             'date'=> 'required|date|after_or_equal:today',
             'budget'=> 'required|numeric'
         ]);
-        
+
         $ad = new Classified($request->all());
         $ad->user_id = Auth::user()->id;
         $ad->save();
@@ -103,5 +103,8 @@ class ClassifiedsController extends Controller
     public function destroy($id)
     {
         //
+        $classified = Classified::find($id);
+        $classified->delete();
+        return redirect(url('/home'))->with('status', 'Deleted successfuly');
     }
 }
