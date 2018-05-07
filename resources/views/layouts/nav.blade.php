@@ -9,7 +9,9 @@
 							<li class="nav-item @if($selected == 'welcome') active @endif">
 								<a class="nav-link" href="{{url('/')}}">Home</a>
 							</li>
-
+							<li class="nav-item @if($selected == 'classified') active @endif">
+								<a class="nav-link" href="{{url('/classified')}}">Browse jobs</a>
+							</li>
 							@if(Auth::user())
 							<li class="nav-item @if($selected == 'home') active @endif">
 								<a class="nav-link" href="{{url('/home')}}">Dashboard</a>

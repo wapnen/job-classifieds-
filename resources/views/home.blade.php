@@ -92,6 +92,7 @@
 
                         </tbody>
                     </table>
+                    {{$ads->links()}}
                     @endif
                 </div>
             </div>

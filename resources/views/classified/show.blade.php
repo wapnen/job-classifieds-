@@ -90,8 +90,8 @@
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                       @if($ad->status != 'Assigned')
-                                      <a class="dropdown-item" href="bid/status/{{$bid->id}}/Accepted">Accept Bid</a>
-                                      <a class="dropdown-item" href="bid/status/{{$bid->id}}/Rejected">Reject Bid</a>
+                                      <a class="dropdown-item" href="/bid/status/{{$bid->id}}/Accepted">Accept Bid</a>
+                                      <a class="dropdown-item" href="/bid/status/{{$bid->id}}/Rejected">Reject Bid</a>
                                       @endif
                                       <a class="dropdown-item" href="/message/{{$bid->user_id}}">Message user</a>
 

@@ -28,7 +28,7 @@
             <div class="col-md-12">
                 <!-- Advance Search -->
                 <div class="advance-search">
-                    
+
                 </div>
             </div>
         </div>
@@ -52,13 +52,13 @@
                             <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="">{{$ad->address}}, {{$ad->district}} , {{$ad->region}}</a></li>
                         </ul>
                     </div>
-                    
+
                     <div class="content">
                         <ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Description</a>
                             </li>
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Job bids</a>
                             </li>
@@ -68,7 +68,7 @@
                                 <h3 class="tab-title">Job description</h3>
                                 <p>{{$ad->description}}</p>
                             </div>
-                            
+
                             <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                                 <h3 class="tab-title">Bids for this job</h3>
                                 <div class="product-review">
@@ -101,11 +101,11 @@
                                         </div>
                                     </div>
                                     @endforeach
-                                    @if(Auth::user()->id != $ad->user_id && count(App\Bid::where('user_id', Auth::user()->id)->get()) == 0 )
+                                    @if(Auth::user()->id != $ad->user_id && count(App\Bid::where(['user_id' => Auth::user()->id, 'ad_id' => $ad->id])->get()) == 0 )
                                     <div class="review-submission">
                                         <h3 class="tab-title">Submit your bid</h3>
                                         <!-- Rate -->
-                                       
+
                                         <div class="review-submit">
                                             <form action="{{route('bid.store')}}" method="post" class="row">
                                                 {{csrf_field()}}
@@ -114,7 +114,7 @@
                                                     <label>Bid amount</label>
                                                     <input type="text" name="bid_amount" id="bid_amount" class="form-control" value="{{old('bid_amount')}}" placeholder="0.00" required>
                                                 </div>
-                                                
+
                                                 <div class="col-12">
                                                     <textarea name="details" id="details" rows="10" class="form-control" placeholder="Message">{{old('details')}}</textarea>
                                                 </div>
@@ -137,19 +137,19 @@
                         <h4>Budget</h4>
                         <p>GHc{{number_format($ad->budget, 2)}}</p>
                     </div>
-                   
+
                     <!-- Map Widget -->
                     <div class="widget map">
                         <div class="map">
                             <div id="map"></div>
                         </div>
                     </div>
-                    
-                    
-                    
+
+
+
                 </div>
             </div>
-            
+
         </div>
     </div>
     <!-- Container End -->
@@ -159,7 +159,86 @@
 =============================-->
 @include('layouts.footer')
 
+<script type="text/javascript">
 
+// GOogle Map
+
+window.marker = null;
+
+function initialize() {
+    var map;
+
+    var nottingham = new google.maps.LatLng({{$ad->lat}}, {{$ad->long}});
+
+    var style = [
+    {
+        "stylers": [
+            {
+                "hue": "#ff61a6"
+            },
+            {
+                "visibility": "on"
+            },
+            {
+                "invert_lightness": true
+            },
+            {
+                "saturation": 40
+            },
+            {
+                "lightness": 10
+            }
+        ]
+    }
+];
+
+    var mapOptions = {
+        // SET THE CENTER
+        center: nottingham,
+
+        // SET THE MAP STYLE & ZOOM LEVEL
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoom:9,
+
+        // SET THE BACKGROUND COLOUR
+        backgroundColor:"#000",
+
+        // REMOVE ALL THE CONTROLS EXCEPT ZOOM
+        zoom:17,
+        panControl:false,
+        zoomControl:true,
+        mapTypeControl:false,
+        scaleControl:false,
+        streetViewControl:false,
+        overviewMapControl:false,
+        zoomControlOptions: {
+            style:google.maps.ZoomControlStyle.LARGE
+        }
+
+    }
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    // SET THE MAP TYPE
+    var mapType = new google.maps.StyledMapType(style, {name:"Grayscale"});
+    map.mapTypes.set('grey', mapType);
+    map.setMapTypeId('grey');
+
+    //CREATE A CUSTOM PIN ICON
+    var marker_image ='plugins/google-map/images/marker.png';
+    var pinIcon = new google.maps.MarkerImage(marker_image,null,null, null,new google.maps.Size(74, 73));
+
+    marker = new google.maps.Marker({
+        position: nottingham,
+        map: map,
+        icon: pinIcon,
+        title: 'eventre'
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+</script>
 </body>
 
 </html>

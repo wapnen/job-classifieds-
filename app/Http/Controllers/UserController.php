@@ -15,7 +15,7 @@ class UserController extends Controller
 		$user = Auth::user();
 		$user->update($request->all());
 		return back()->with('status', 'Changes saved');
-	}	
+	}
 
 	//change the user's password
 	public function update_password(Request $request){
@@ -23,7 +23,7 @@ class UserController extends Controller
 		// The passwords matches
 		//dd('wrong password');
 		return redirect()->back()->with("password","Your current password does not matches with the password you provided. Please try again.");
-		
+
 		}
 
 		if(strcmp($request->get('current-password'), $request->get('password')) == 0){
@@ -42,7 +42,7 @@ class UserController extends Controller
 
 	//post user review
 	public function post_review(Request $request){
-		
+
 		$ad = Classified::find($request->ad_id);
 		$review = new Review($request->all());
 		$review->user_id = $ad->assigned_to;
@@ -50,4 +50,11 @@ class UserController extends Controller
 		return back()->with('status', 'Your job review has been posted!');
 	}
 
+	//show a user
+	public function show_user($id){
+		$user = User::find($id);
+		$rating = ceil(Review::where('user_id', $id)->avg('rating'));
+
+		return view('user.show', compact('user', 'rating'));
+	}
 }

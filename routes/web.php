@@ -14,7 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+//show single user
+Route::get('/user/profile/{id}', 'UserController@show_user');
 Auth::routes();
 Route::group(['middleware' => 'auth'], function(){
 	//user routes
@@ -26,23 +27,24 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/profile', 'UserController@update_profile' );
 	//update password
 	Route::post('/password/update', 'UserController@update_password');
-	//user ratings and reviews 
+	//user ratings and reviews
 	Route::post('/post/review', 'UserController@post_review');
-	//classifieds controller 
+
+	//classifieds controller
 	Route::get('/jobs/assigned', function(){
 		$ads = App\Classified::where('status', 'Assigned')->orWhere('status', 'Completed')->get();
 		return view('classified.assigned', compact('ads'));
 	});
 	Route::resource('/classified', 'ClassifiedsController');
-	//show a single ad 
+	//show a single ad
 	Route::get('/job/ad/{id}', function($id){
 		$ad = App\Classified::find($id);
 		return view('classified.single', compact('ad'));
 	});
 
-	
 
-	//bid controller 
+
+	//bid controller
 	Route::get('bid/status/{bid}/{status}', 'BidController@status');
 	Route::resource('/bid', 'BidController');
 

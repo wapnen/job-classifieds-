@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $ads = Classified::where('user_id', Auth::user()->id)->paginate(10);
+        $ads = Classified::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(5);
 
         return view('home', ['ads' => $ads]);
     }
