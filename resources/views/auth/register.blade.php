@@ -43,7 +43,7 @@
                         @csrf
 
                         <div class="form-group row">
-                           
+
 
                             <div class="col-md-12">
                                  <label for="name" >Name</label>
@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="form-group row">
-                            
+
 
                             <div class="col-md-12">
                                 <label for="email" >E-Mail Address</label>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                           
+
 
                             <div class="col-md-12">
                                  <label for="phone" >Phone</label>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            
+
                             <div class="col-md-12">
                                 <label for="password" >Password</label>
 
@@ -101,7 +101,7 @@
                         </div>
 
                         <div class="form-group row">
-                           
+
                             <div class="col-md-12">
                                  <label for="password-confirm" >Confirm Password</label>
 
@@ -109,29 +109,50 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            
+
+
                                 <div class="radio col-md-6 text-center">
-                                  <label><input type="radio" name="role" value="Artisan" class="form-control" checked="true">I want to work</label>
+                                  <label><input type="radio" name="role" value="Customer" class="form-control" checked="true">I want to hire</label>
                                 </div>
                                 <div class="radio col-md-6 text-center">
-                                  <label><input type="radio" name="role" value="Customer" class="form-control">I want to hire</label>
+                                  <label><input type="radio" name="role" value="Artisan" class="form-control" >I want to work</label>
                                 </div>
-                            
+                        </div>
+                        <div class="form-group row specialty" style="display:none;">
+
+                                <div class="radio col-md-12 ">
+                                  <label>Select Specialty </label>
+                                  <select name="specialty" class="form-control">
+                                    <option value="Automotive maintenance and repair">Automotive maintenance and repair</option>
+                                    <option value="Beauty and cosmetics">Beauty and cosmetics</option>
+                                    <option value="Mobile and cell">Mobile and cell</option>
+                                    <option value="Computer and software">Computer and software</option>
+                                    <option value="Creative">Creative</option>
+                                    <option value="Event management">Event management</option>
+                                    <option value="Farm/Garden">Farm/Garden</option>
+                                    <option value="Lessons">Lessons</option>
+                                    <option value="Therapeutic">Therapeutic</option>
+                                    <option value="Plumbing">Plumbing</option>
+                                    <option value="Electrical and lightning">Electrical and lightning</option>
+                                    <option value="Carpentry and furniture">Carpentry and furniture</option>
+                                    <option value="Labor and movement">Labor and movement</option>
+                                  </select>
+                                </div>
                         </div>
                         <hr>
                         <div class="form-group row mb-0">
                             <div class="col-md-12 text-center">
                                 <button type="submit" class="btn btn-primary btn-transparent">
-                                    
+
                                     Sign up
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
-               
+
             </div>
-           
+
         </div>
         <!-- Row End -->
     </div>
@@ -142,7 +163,18 @@
 =============================-->
 @include('layouts.footer')
 
-
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('input[type=radio][name=role]').change(function(){
+          if(this.value == 'Artisan'){
+            $('.specialty').show();
+          }
+          else{
+            $('.specialty').hide();
+          }
+      });
+  });
+</script>
 </body>
 
 </html>

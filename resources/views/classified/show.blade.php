@@ -65,7 +65,8 @@
                         <thead>
                             <tr>
                                 <th>S/no</th>
-                                <th>User</th>
+                                <th>Artisan</th>
+                                <th>Artisan's specialty</th>
                                 <th>Status</th>
                                 <th>Bid amount</th>
                                 <th>Comments</th>
@@ -79,6 +80,7 @@
                               <?php $i = 1; ?>
                                 <td>{{$i}}</td>
                                 <td><a href="" class="text-info"> {{App\User::find($bid->user_id)->name}}</a></td>
+                                <td>{{App\User::find($bid->user_id)->specialty}}</td>
                                 <td><span class="badge @if($bid->status == 'Accepted') badge-success @elseif($bid->status == 'Rejected') badge-danger @else badge-info @endif ">{{$bid->status}}</span> </td>
                                 <td>GHc{{number_format($bid->bid_amount,2)}}</td>
                                 <td >{{$bid->details}} </td>
